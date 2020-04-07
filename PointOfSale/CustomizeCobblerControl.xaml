@@ -3,10 +3,53 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             xmlns:data="clr-namespace:ExamTwoCodeQuestions.Data;assembly=ExamTwoCodeQuestions.Data"
              xmlns:local="clr-namespace:ExamTwoQuestions.PointOfSale"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="40"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="FontSize" Value="40"/>
+        </Style>
+        <ObjectDataProvider MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}"
+                            x:Key="fruit">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="data:FruitFilling"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    
     <Grid>
-        <TextBlock>Customize Cobbler</TextBlock>
+        
+        <StackPanel>
+            <TextBlock HorizontalAlignment="Center">Customize Cobbler</TextBlock>
+        
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                <TextBlock>Select Fruit:</TextBlock>
+                <ComboBox Name="fruitComboBox"
+                          Width="300"
+                          SelectedItem="{Binding Path=Fruit}" 
+                          ItemsSource="{Binding Source={StaticResource fruit}}"
+                          SelectionChanged="ChangeSelectionTextBox"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                <CheckBox Name="cbWithIceCream" 
+                          IsChecked="{Binding Path=WithIceCream}"
+                          Click="ChangeSelectionTextBox">With Ice Cream?</CheckBox>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock>Selection:</TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Name="tbSelection"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>
